@@ -22,7 +22,7 @@ class PdfController extends Controller
 
 // get pdf info
         $pdfInfo = $pdf->getInfo();
-return $pdfInfo;
+
 // get count pages
 //        $countPages = $pdf->countPages();
 
