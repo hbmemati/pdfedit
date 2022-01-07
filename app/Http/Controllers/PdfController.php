@@ -10,8 +10,8 @@ class PdfController extends Controller
     public function index(Request $request)
     {
         $pdf = new \TonchikTm\PdfToHtml\Pdf('test.pdf', [
-            'pdftohtml_path' => '/usr/bin/pdftohtml',
-            'pdfinfo_path' => '/usr/bin/pdfinfo'
+            'pdftohtml_path' => '/app/.apt/usr/bin/pdftohtml',
+            'pdfinfo_path' => '/app/.apt/usr/bin/pdfinfo'
         ]);
 
 // example for windows
