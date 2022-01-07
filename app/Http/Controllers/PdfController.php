@@ -24,7 +24,7 @@ class PdfController extends Controller
         $pdfInfo = $pdf->getInfo();
 
 // get count pages
-        $countPages = $pdf->countPages();
+//        $countPages = $pdf->countPages();
 
 // get content from one page
         $contentFirstPage = $pdf->getHtml()->getPage(1);
