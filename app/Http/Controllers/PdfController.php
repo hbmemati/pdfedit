@@ -2,16 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use PDF;
 
 class PdfController extends Controller
 {
 
-    public function index(Request $request)
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'pdf' => 'required|mimes:pdf',
+        ], [
+            'email.pdf' => 'Dosya boş girilemez !',
+
+        ]);
+
+        $fileName = 'test.pdf';
+
+        $request->pdf->move(public_path(), $fileName);
+
+
+        return redirect()->route('index')->with('success', 'Pdf değiştirildi');
+    }
+
+    public function download(Request $request)
     {
         $pdf = new \TonchikTm\PdfToHtml\Pdf('test.pdf', [
+//            'pdftohtml_path' => '/usr/bin/pdftohtml',
+//            'pdfinfo_path' => '/usr/bin/pdfinfo',
             'pdftohtml_path' => '/app/.apt/usr/bin/pdftohtml',
             'pdfinfo_path' => '/app/.apt/usr/bin/pdfinfo'
+
         ]);
 
 // example for windows
@@ -33,7 +57,13 @@ class PdfController extends Controller
         $bodytag = str_replace("Page 1", null, $contentFirstPage);
 
         preg_match("'<b>SAYIN<br></b>(.*?)<br>'si", $contentFirstPage, $match);
-        $bodytag = str_replace($match[1], $request->isim, $bodytag);
+        $bodytag = str_replace($match[1], $request->name, $bodytag);
+
+        $bodytag = str_replace("tonchik-tm", null, $bodytag);
+
+
+        return $bodytag;
+
         return $bodytag;
 
 // get content from all pages and loop for they
